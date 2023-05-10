@@ -3,8 +3,6 @@ on:
   push:
     branches:
     - master
-    - 'cygport-*'
-    - 'topic/**'
   workflow_dispatch:
 
 env:
@@ -94,8 +92,8 @@ jobs:
       run: |
        git clone --depth 1 --config core.autocrlf=input https://github.com/crosstool-ng/crosstool-ng.git
        cd crosstool-ng
-       ./bootstrap
-       ./configure --enable-local
+       bash -c "bootstrap"
+       bash -c "configure --enable-local"
        make
        
     - name: Building the toolchain
@@ -112,6 +110,5 @@ jobs:
        cp .config $LINUX_DIR
        cd $LINUX_DIR
        mkdir src
-       $GITHUB_WORKSPACE/ct-ng build
-       ct-ng build
+       bash -c "$GITHUB_WORKSPACE/ct-ng build"
 
